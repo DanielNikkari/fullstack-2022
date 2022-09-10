@@ -6,6 +6,11 @@ body {
   text-align: center;
 }
 
+.App-buttons {
+  display: inline-flex;
+  color: black;
+}
+
 .App-button {
   background-color: whitesmoke;
   color: black;
@@ -22,4 +27,12 @@ body {
 
 .App-header {
   color: cyan;
+}
+
+.App-header2 {
+  color: aliceblue;
+}
+
+.App-header3 {
+  color: aquamarine;
 }

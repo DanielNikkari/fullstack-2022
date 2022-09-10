@@ -23,14 +23,46 @@ const App = () => {
   ];
 
   const [selected, setSelected] = useState(0);
+  const [points, setPoints] = useState(new Uint8Array(anecdotes.length));
+  const [best, setBest] = useState(0);
 
   const getRandomQuote = (anecdotes) => () =>
     setSelected(Math.floor(Math.random() * anecdotes.length));
 
+  const addPoints = (index) => () => {
+    const newPoints = { ...points };
+    newPoints[index] += 1;
+    setPoints(newPoints);
+    getMostVotes(newPoints);
+  };
+
+  const getMostVotes = (points) => {
+    let maxValue = 0;
+    let maxIndex = 0;
+    for (let i = 0; i < Object.keys(points).length; i++) {
+      if (maxValue < points[i]) {
+        maxValue = points[i];
+        maxIndex = i;
+      }
+    }
+    setBest(maxIndex);
+  };
+
   return (
     <div className="App">
-      <h1 className="App-header">{anecdotes[selected]}</h1>
-      <Button processClick={getRandomQuote(anecdotes)} text={"next anecdote"} />
+      <h1 className="App-header">Anecdote of the day</h1>
+      <h2 className="App-header2">{anecdotes[selected]}</h2>
+      <h3 className="App-header3">has {points[selected]} votes</h3>
+      <div className="App-buttons">
+        <Button processClick={addPoints(selected)} text={"vote"} />
+        <Button
+          processClick={getRandomQuote(anecdotes)}
+          text={"next anecdote"}
+        />
+      </div>
+      <h1 className="App-header">Anecdote with most votes</h1>
+      <h2 className="App-header2">{anecdotes[best]}</h2>
+      <h3 className="App-header3">has {points[best]} votes</h3>
     </div>
   );
 };
