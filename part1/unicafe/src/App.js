@@ -11,21 +11,41 @@ const Button = ({ handleClick, text }) => {
   );
 };
 
-const Showstatics = ({ good, neutral, bad }) => {
+const StatisticLine = ({ text, value }) => {
   return (
-    <div className="App-stats">
-      <p className="App-stat">good {good}</p>
-      <p className="App-stat">neutral {neutral}</p>
-      <p className="App-stat">bad {bad}</p>
-      <p className="App-stat">all {good + neutral + bad}</p>
+    <>
       <p className="App-stat">
-        average {(good - bad) / (good + neutral + bad)}
+        {text} {value}
       </p>
-      <p className="App-stat">
-        positive {100 * (good / (good + neutral + bad))} %
-      </p>
-    </div>
+    </>
   );
+};
+
+const Statistics = ({ good, neutral, bad }) => {
+  if (good + neutral + bad !== 0) {
+    return (
+      <div className="App-stats">
+        <StatisticLine text={"good"} value={good} />
+        <StatisticLine text={"neutral"} value={neutral} />
+        <StatisticLine text={"bad"} value={bad} />
+        <StatisticLine text={"all"} value={good + neutral + bad} />
+        <StatisticLine
+          text={"average"}
+          value={(good - bad) / (good + neutral + bad)}
+        />
+        <StatisticLine
+          text={"positive"}
+          value={100 * (good / (good + neutral + bad)) + " %"}
+        />
+      </div>
+    );
+  } else {
+    return (
+      <div className="App-stats">
+        <p className="App-stat">No feedback given</p>
+      </div>
+    );
+  }
 };
 
 const App = () => {
@@ -56,7 +76,7 @@ const App = () => {
         <Button handleClick={addRating("bad", bad + 1)} text={"bad"} />
       </div>
       <h1 className="App-header2">statics</h1>
-      <Showstatics good={good} neutral={neutral} bad={bad} />
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   );
 };
