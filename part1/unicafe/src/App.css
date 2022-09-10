@@ -42,3 +42,13 @@ body {
 .App-stat {
     margin: 1;
 }
+
+table {
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+tr{
+    padding-bottom: 2px;
+  }
