@@ -17,6 +17,13 @@ const Showstatics = ({ good, neutral, bad }) => {
       <p className="App-stat">good {good}</p>
       <p className="App-stat">neutral {neutral}</p>
       <p className="App-stat">bad {bad}</p>
+      <p className="App-stat">all {good + neutral + bad}</p>
+      <p className="App-stat">
+        average {(good - bad) / (good + neutral + bad)}
+      </p>
+      <p className="App-stat">
+        positive {100 * (good / (good + neutral + bad))} %
+      </p>
     </div>
   );
 };
