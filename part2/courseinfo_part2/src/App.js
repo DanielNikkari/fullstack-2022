@@ -4,7 +4,10 @@ const Part = ({ part }) => {
   return (
     <div>
       <p className="App-header2">
-        {part.name} <span className="App-stat">{part.exercises}</span>
+        {part.name}{" "}
+        <span className="App-stat">
+          <b>{part.exercises}</b>
+        </span>
       </p>
     </div>
   );
@@ -28,11 +31,28 @@ const Header = ({ name }) => {
   );
 };
 
+const Sum = ({ parts }) => {
+  return (
+    <div>
+      <p className="App-stat">
+        <b>
+          total of{" "}
+          {parts.reduce(function (sum, part) {
+            return sum + part.exercises;
+          }, 0)}{" "}
+          exercises
+        </b>
+      </p>
+    </div>
+  );
+};
+
 const Course = ({ course }) => {
   return (
     <div className="App">
       <Header name={course.name} />
       <Content parts={course.parts} />
+      <Sum parts={course.parts} />
     </div>
   );
 };
