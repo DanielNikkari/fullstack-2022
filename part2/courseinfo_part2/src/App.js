@@ -1,5 +1,5 @@
-import "./App.css";
-import { Courses } from "./Course";
+import "./App.css"
+import { Courses } from "./Course"
 
 const App = () => {
   const courses = [
@@ -45,9 +45,9 @@ const App = () => {
         },
       ],
     },
-  ];
+  ]
 
-  return <Courses courses={courses} />;
-};
+  return <Courses courses={courses} />
+}
 
-export default App;
+export default App

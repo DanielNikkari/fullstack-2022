@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 const Part = ({ part }) => {
   return (
@@ -10,8 +10,8 @@ const Part = ({ part }) => {
         </span>
       </p>
     </div>
-  );
-};
+  )
+}
 
 const Content = ({ parts }) => {
   return (
@@ -20,16 +20,16 @@ const Content = ({ parts }) => {
         <Part part={part} key={part.id} />
       ))}
     </div>
-  );
-};
+  )
+}
 
 const Header = ({ name }) => {
   return (
     <div>
       <h1 className="App-header">{name}</h1>
     </div>
-  );
-};
+  )
+}
 
 const Sum = ({ parts }) => {
   return (
@@ -38,14 +38,14 @@ const Sum = ({ parts }) => {
         <b>
           total of{" "}
           {parts.reduce(function (sum, part) {
-            return sum + part.exercises;
+            return sum + part.exercises
           }, 0)}{" "}
           exercises
         </b>
       </p>
     </div>
-  );
-};
+  )
+}
 
 const Course = ({ course }) => {
   return (
@@ -54,8 +54,8 @@ const Course = ({ course }) => {
       <Content parts={course.parts} />
       <Sum parts={course.parts} />
     </div>
-  );
-};
+  )
+}
 
 const Courses = ({ courses }) => {
   return (
@@ -64,7 +64,7 @@ const Courses = ({ courses }) => {
         <Course course={course} key={course.id} />
       ))}
     </div>
-  );
-};
+  )
+}
 
-export { Courses };
+export { Courses }
