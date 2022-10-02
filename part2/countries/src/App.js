@@ -8,6 +8,7 @@ import { MoreThanOne } from "./components/MoreThanOne"
 function App() {
   const [searchVal, setSearchVal] = useState("")
   const [data, setData] = useState([])
+  const [displayData, setDisplayData] = useState("")
 
   const handleSearchChange = (event) => {
     setSearchVal(event.target.value)
@@ -22,7 +23,7 @@ function App() {
     })
   }, [])
 
-  const countriesToShow =
+  var countriesToShow =
     searchVal === ""
       ? []
       : data.filter((country) => {
@@ -40,14 +41,24 @@ function App() {
           }
         })
 
-  var displayData
-  if (countriesToShow.length === 1) {
-    displayData = <CountryData countriesToShow={countriesToShow} />
-  } else if (countriesToShow.length > 1 && countriesToShow.length < 10) {
-    displayData = <MoreThanOne countriesToShow={countriesToShow} />
-  } else if (countriesToShow.length > 10 && searchVal !== "") {
-    displayData = <TooManyMatches countriesToShow={countriesToShow} />
-  }
+  useEffect(() => {
+    const chooseCountry = (country) => {
+      setDisplayData(<CountryData countriesToShow={[country]} />)
+    }
+
+    if (countriesToShow.length === 1) {
+      setDisplayData(<CountryData countriesToShow={countriesToShow} />)
+    } else if (countriesToShow.length > 1 && countriesToShow.length < 10) {
+      setDisplayData(
+        <MoreThanOne
+          countriesToShow={countriesToShow}
+          chooseCountry={chooseCountry}
+        />
+      )
+    } else if (countriesToShow.length > 10 && searchVal !== "") {
+      setDisplayData(<TooManyMatches countriesToShow={countriesToShow} />)
+    }
+  }, [searchVal])
 
   return (
     <div className="App">

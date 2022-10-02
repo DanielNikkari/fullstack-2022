@@ -1,4 +1,4 @@
-export const MoreThanOne = ({ countriesToShow }) => {
+export const MoreThanOne = ({ countriesToShow, chooseCountry }) => {
   return (
     <div>
       {countriesToShow.map((country, i) => {
@@ -9,6 +9,7 @@ export const MoreThanOne = ({ countriesToShow }) => {
             </span>
             <br />
             Official name: {country.name.official}
+            <button onClick={() => chooseCountry(country)}>show</button>
           </li>
         )
       })}
