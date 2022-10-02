@@ -5,6 +5,9 @@ export const CountryData = ({ countriesToShow }) => {
         return (
           <div key={j}>
             <h2 className="App-header2">{country.name.common}</h2>
+            <h4 className="App-header-official">
+              Official name: {country.name.official}
+            </h4>
             <p>
               capital: {country.capital}
               <br />

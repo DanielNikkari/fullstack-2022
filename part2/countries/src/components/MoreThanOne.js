@@ -4,7 +4,11 @@ export const MoreThanOne = ({ countriesToShow }) => {
       {countriesToShow.map((country, i) => {
         return (
           <li key={i} className="moreThanOne">
-            {country.name.common}
+            <span className="common-name">
+              <b>{country.name.common}</b>
+            </span>
+            <br />
+            Official name: {country.name.official}
           </li>
         )
       })}

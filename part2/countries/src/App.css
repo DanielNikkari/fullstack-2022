@@ -52,6 +52,13 @@ h3 {
 .moreThanOne {
   margin: 10px;
 }
+.App-header-official {
+  color: salmon;
+  margin-top: 0;
+}
+.common-name {
+  color: springgreen;
+}
 ul {
   padding: 0;
 }
