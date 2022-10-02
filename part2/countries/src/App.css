@@ -1,0 +1,82 @@
+body {
+  background-color: #22252c;
+}
+
+.App {
+  text-align: center;
+  margin: 1rem;
+}
+
+.App-buttons {
+  display: inline-flex;
+  color: black;
+}
+
+.App-button {
+  background-color: whitesmoke;
+  color: black;
+  margin: 1rem;
+  width: 8em;
+  height: 3em;
+  border: none;
+  border-radius: 5px;
+}
+
+.App-button:hover {
+  background-color: aqua;
+}
+
+.App-header {
+  color: cyan;
+}
+
+.App-header2 {
+  color: aliceblue;
+}
+h3 {
+  color: springgreen;
+}
+
+.App-stat {
+  color: aquamarine;
+  font-size: large;
+  margin: 0;
+}
+
+.App-text {
+  color: springgreen;
+  font-size: medium;
+  font-weight: 700;
+  text-align: center;
+}
+.moreThanOne {
+  margin: 10px;
+}
+ul {
+  padding: 0;
+}
+
+li {
+  color: aliceblue;
+  list-style: none;
+}
+
+button {
+  margin: 10px;
+  width: 200px;
+  height: 20px;
+  border: none;
+  background-color: white;
+  color: black;
+  font-size: 15px;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: cyan;
+  scale: 1.1;
+}
+
+p {
+  color: aliceblue;
+}
