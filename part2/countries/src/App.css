@@ -59,6 +59,9 @@ h3 {
 .common-name {
   color: springgreen;
 }
+.country-flag {
+  margin: 20px;
+}
 ul {
   padding: 0;
 }
