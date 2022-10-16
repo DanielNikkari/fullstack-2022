@@ -15,5 +15,17 @@
   ],
   "profile": {
     "name": "typicode"
-  }
+  },
+  "persons": [
+    {
+      "name": "dan",
+      "number": "000",
+      "id": 1
+    },
+    {
+      "name": "dan2",
+      "number": "111",
+      "id": 2
+    }
+  ]
 }

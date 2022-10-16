@@ -17,13 +17,17 @@ const App = () => {
       name: newName,
       number: newNumber,
     }
+
     if (
-      persons.filter((person) => personObject.name === person.name).length !== 0
-    ) {
+      persons.filter((person) => personObject.name === person.name).length !== 0) {
       alert(`${personObject.name} is already added to phonebook`)
       return
     }
     setPersons(persons.concat(personObject))
+		axios
+			.post("http://localhost:3001/persons", personObject)
+			.then(response => {console.log(response)})
+
     setNewName("")
     setNewNumber("")
   }
