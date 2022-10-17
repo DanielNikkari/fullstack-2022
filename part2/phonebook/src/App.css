@@ -66,3 +66,14 @@ button:hover {
   background-color: cyan;
   scale: 1.1;
 }
+
+.button2 {
+  margin: 10px;
+  width: 70px;
+  height: 20px;
+  border: none;
+  background-color: white;
+  color: black;
+  font-size: 12px;
+  border-radius: 4px;
+}

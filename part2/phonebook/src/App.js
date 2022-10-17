@@ -28,10 +28,26 @@ const App = () => {
     setPersons(persons.concat(personObject))
     personService.add(personObject).then((response) => {
       console.log(response)
+      personService.getAll().then((response) => {
+        setPersons(response.data)
+      })
     })
 
     setNewName("")
     setNewNumber("")
+  }
+
+  const handleDelete = (id, name) => {
+    if (window.confirm(`Delete ${name}?`)) {
+      console.log(`Deleting person ${name} with id ${id}`)
+      personService.deletePerson(id).then((response) => {
+        if (response.status === 200) {
+          personService.getAll().then((response) => {
+            setPersons(response.data)
+          })
+        }
+      })
+    }
   }
 
   const personsToShow =
@@ -84,7 +100,7 @@ const App = () => {
       />
 
       <h2 className="App-header2">Numbers</h2>
-      <Persons personsToShow={personsToShow} />
+      <Persons personsToShow={personsToShow} handleDelete={handleDelete} />
     </div>
   )
 }
