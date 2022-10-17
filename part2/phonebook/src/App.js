@@ -19,10 +19,34 @@ const App = () => {
       number: newNumber,
     }
 
-    if (
-      persons.filter((person) => personObject.name === person.name).length !== 0
-    ) {
-      alert(`${personObject.name} is already added to phonebook`)
+    const person = persons.find((person) => personObject.name === person.name)
+    if (person !== undefined) {
+      // alert(`${personObject.name} is already added to phonebook`)
+      if (
+        window.confirm(
+          `${personObject.name} is already in the phonebook, replace the old number with a new one?`
+        )
+      ) {
+        const changedPerson = { ...person, number: newNumber }
+        const id = person.id
+        console.log(`id ${id}`)
+        personService
+          .update(id, changedPerson)
+          .then((returnedPerson) => {
+            console.log(returnedPerson)
+            setPersons(
+              persons.map((p) =>
+                p.id !== returnedPerson.id ? p : returnedPerson
+              )
+            )
+          })
+          .catch((error) => {
+            alert(`unable to update the phone number for ${person.name}`)
+            setPersons(persons.filter((person) => person.id !== id))
+          })
+      }
+      setNewName("")
+      setNewNumber("")
       return
     }
     setPersons(persons.concat(personObject))
