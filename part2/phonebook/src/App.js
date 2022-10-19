@@ -90,7 +90,7 @@ const App = () => {
       })
     }
     setMessage(`deleted ${name} from phonebook`)
-    setError(true)
+    setError(false)
     setTimeout(() => {
       setMessage(null)
     }, 3000)
