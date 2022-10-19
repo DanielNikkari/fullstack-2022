@@ -77,3 +77,59 @@ button:hover {
   font-size: 12px;
   border-radius: 4px;
 }
+
+.notification {
+  position: absolute;
+  background-color: green;
+  color: white;
+  border-radius: 15px;
+  padding: 20px;
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 50%;
+  transform: translatex(-50%);
+  top: 0;
+  animation: notfication-slide 3000ms  ease-in-out;
+  animation: name duration timing-function delay iteration-count direction fill-mode;
+}
+
+@keyframes notfication-slide {
+  0%{
+    opacity: 0;
+    top: 0;
+  }
+  2%{
+    opacity: 0;
+  }
+  20%{
+    opacity: 1;
+    top: 2rem;
+  }
+  80%{
+    opacity: 1;
+    top: 2rem;
+  }
+  100%{
+    opacity: 0;
+    top: 0;
+  }
+}
+
+.error {
+  position: absolute;
+  background-color: red;
+  color: white;
+  border-radius: 15px;
+  padding: 20px;
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 50%;
+  transform: translatex(-50%);
+  top: 0;
+  animation: notfication-slide 3000ms  ease-in-out;
+  animation: name duration timing-function delay iteration-count direction fill-mode;
+}

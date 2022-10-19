@@ -2,15 +2,17 @@ import { useState, useEffect } from "react"
 import { Persons } from "./components/Persons"
 import { Filter } from "./components/Filter"
 import { PersonForm } from "./components/PersonForm"
+import { Notification } from "./components/Notifications"
 import personService from "./services/persons"
 import "./App.css"
-import axios from "axios"
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState("")
   const [newNumber, setNewNumber] = useState("")
   const [searchValue, setSearchValue] = useState("")
+  const [message, setMessage] = useState(null)
+  const [error, setError] = useState(false)
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -41,12 +43,21 @@ const App = () => {
             )
           })
           .catch((error) => {
-            alert(`unable to update the phone number for ${person.name}`)
+            setMessage(`unable to update the phone number for ${person.name}`)
+            setError(false)
+            setTimeout(() => {
+              setMessage(null)
+            }, 3000)
             setPersons(persons.filter((person) => person.id !== id))
           })
       }
       setNewName("")
       setNewNumber("")
+      setMessage(`updated phone number for ${personObject.name}`)
+      setError(false)
+      setTimeout(() => {
+        setMessage(null)
+      }, 3000)
       return
     }
     setPersons(persons.concat(personObject))
@@ -59,6 +70,12 @@ const App = () => {
 
     setNewName("")
     setNewNumber("")
+
+    setMessage(`added ${personObject.name} to the phonebook`)
+    setError(false)
+    setTimeout(() => {
+      setMessage(null)
+    }, 3000)
   }
 
   const handleDelete = (id, name) => {
@@ -72,6 +89,11 @@ const App = () => {
         }
       })
     }
+    setMessage(`deleted ${name} from phonebook`)
+    setError(true)
+    setTimeout(() => {
+      setMessage(null)
+    }, 3000)
   }
 
   const personsToShow =
@@ -110,6 +132,7 @@ const App = () => {
   return (
     <div className="App">
       <h2 className="App-header">Phonebook</h2>
+      <Notification message={message} error={error} />
       <PersonForm
         addPerson={addPerson}
         newName={newName}
