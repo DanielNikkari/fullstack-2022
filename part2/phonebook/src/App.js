@@ -43,8 +43,8 @@ const App = () => {
             )
           })
           .catch((error) => {
-            setMessage(`unable to update the phone number for ${person.name}`)
-            setError(false)
+            setMessage(`${person.name} has been already deleted from server`)
+            setError(true)
             setTimeout(() => {
               setMessage(null)
             }, 3000)

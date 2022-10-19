@@ -91,7 +91,24 @@ button:hover {
   left: 50%;
   transform: translatex(-50%);
   top: 0;
-  animation: notfication-slide 3000ms  ease-in-out;
+  animation: notfication-slide 3050ms  ease-in-out;
+  animation: name duration timing-function delay iteration-count direction fill-mode;
+}
+
+.error {
+  position: absolute;
+  background-color: red;
+  color: white;
+  border-radius: 15px;
+  padding: 20px;
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 50%;
+  transform: translatex(-50%);
+  top: 0;
+  animation: notfication-slide 3050ms  ease-in-out;
   animation: name duration timing-function delay iteration-count direction fill-mode;
 }
 
@@ -111,25 +128,9 @@ button:hover {
     opacity: 1;
     top: 2rem;
   }
+  98% {opacity: 0;}
   100%{
     opacity: 0;
     top: 0;
   }
-}
-
-.error {
-  position: absolute;
-  background-color: red;
-  color: white;
-  border-radius: 15px;
-  padding: 20px;
-  width: 20%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  left: 50%;
-  transform: translatex(-50%);
-  top: 0;
-  animation: notfication-slide 3000ms  ease-in-out;
-  animation: name duration timing-function delay iteration-count direction fill-mode;
 }
