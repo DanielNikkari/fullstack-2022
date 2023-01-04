@@ -1,5 +1,6 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
+const logger = require('../utils/logger')
 
 blogsRouter.get('/', (request, response) => {
   Blog
@@ -10,6 +11,7 @@ blogsRouter.get('/', (request, response) => {
 })
 
 blogsRouter.post('/', (request, response) => {
+  logger.info(request.body)
   const blog = new Blog(request.body)
 
   blog
