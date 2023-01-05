@@ -20,15 +20,33 @@ const favoriteBlog = (blogs) => {
 
 const mostBlogs = (blogs) => {
   const authorBlogs = lodash.countBy(blogs, 'author')
-  console.log(authorBlogs)
+  // console.log(authorBlogs)
   const mostBlogsAuthor = Object.keys(authorBlogs).reduce((a, b) => authorBlogs[a] > authorBlogs[b] ? a : b, "c")
-  console.log(mostBlogsAuthor)
+  // console.log(mostBlogsAuthor)
   return blogs.length === 0 ? {} : {author: mostBlogsAuthor, blogs: authorBlogs[mostBlogsAuthor]}
+}
+
+const mostLikes = (blogs) => {
+  const authors = lodash.uniq(blogs.map(blog => blog.author))
+
+  authorLikes = []
+  lodash.forEach(authors, (author) => {
+    let sum = lodash.sumBy(blogs, (o) => { 
+      return o.author === author ? o.likes : 0
+    })
+    authorLikes.push({ author: author, likes: sum })
+  })
+  const mostLikes = Math.max(...authorLikes.map(author => author.likes))
+  const authorWithMostLikes = authorLikes.find(author => author.likes === mostLikes)
+  
+  return blogs.length === 0 ? {} : authorWithMostLikes
+
 }
 
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 }
