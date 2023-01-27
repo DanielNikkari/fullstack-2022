@@ -4,8 +4,8 @@
   "description": "Exercises for Full Stack Part 4",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
-    "test": "jest --verbose"
+    "dev": "NODE_ENV=development nodemon index.js",
+    "test": "NODE_ENV=test jest --verbose --runInBand"
   },
   "author": "Daniel Nikkari",
   "license": "ISC",
@@ -14,11 +14,17 @@
     "dotenv": "^16.0.3",
     "env": "^0.0.2",
     "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
     "mongoose": "^6.8.1",
     "nodemon": "^2.0.20"
   },
   "devDependencies": {
     "jest": "^29.3.1",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "supertest": "^6.3.3"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "globalTeardown": "./test-teardown.js"
   }
 }
