@@ -1,16 +1,44 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
-const blog = require('../models/blog')
 const api = supertest(app)
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const helper = require('./test_helper')
 
+// Global token variable
+let token
+
 beforeEach(async () => {
+
   await Blog.deleteMany({})
-  const blogModels = helper.initialBlogs.map(blog => new Blog(blog))
-  const blogSaves = blogModels.map(blogModel => blogModel.save())
-  await Promise.all(blogSaves)
+  await User.deleteMany({})
+  await api
+    .post('/api/users/')
+    .send(helper.initialUsers[0])
+    .expect(201)
+
+  const user = { username: helper.initialUsers[0].username, password: helper.initialUsers[0].password }
+  await api
+    .post('/api/login/')
+    .send(user)
+    .expect(200)
+    .expect(response => {
+      token = response.body.token
+    })
+
+  await api
+    .post('/api/blogs/')
+    .set('Authorization', `Bearer ${token}`)
+    .send(helper.initialBlogs[0])
+    .expect(201)
+
+  await api
+    .post('/api/blogs/')
+    .set('Authorization', `Bearer ${token}`)
+    .send(helper.initialBlogs[1])
+    .expect(201)
+
 })
 
 describe('GET request tests', () => {
@@ -19,6 +47,7 @@ describe('GET request tests', () => {
     
     const resultBlogs = await api
       .get('/api/blogs/')
+      .set('Authorization', `Bearer ${token}`)
       .expect('Content-Type', /application\/json/)
   
     expect(resultBlogs.body).toHaveLength(helper.initialBlogs.length)
@@ -29,6 +58,7 @@ describe('GET request tests', () => {
   
     const resultBlogs = await api
       .get('/api/blogs/')
+      .set('Authorization', `Bearer ${token}`)
       .expect(200)
       .expect('Content-Type', /application\/json/)
   
@@ -51,6 +81,7 @@ describe('POST request tests', () => {
   
     await api
       .post('/api/blogs/')
+      .set('Authorization', `Bearer ${token}`)
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -75,6 +106,7 @@ describe('POST request tests', () => {
   
     await api
       .post('/api/blogs/')
+      .set('Authorization', `Bearer ${token}`)
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -101,11 +133,13 @@ describe('POST request tests', () => {
   
     await api
       .post('/api/blogs/')
+      .set('Authorization', `Bearer ${token}`)
       .send(newBlogTitle)
       .expect(400)
     
     await api
       .post('/api/blogs/')
+      .set('Authorization', `Bearer ${token}`)
       .send(newBlogUrl)
       .expect(400)
   
@@ -122,6 +156,7 @@ describe('DELETE request tests', () => {
   
     await api
       .delete(`/api/blogs/${idToBeDeleted}`)
+      .set('Authorization', `Bearer ${token}`)
       .expect(204)
   
     const blogsAfterDelete = await helper.blogsInDB()
@@ -144,6 +179,7 @@ describe('PUT request tests', () => {
   
     const result = await api
       .put(`/api/blogs/${idToBeUpdated}`)
+      .set('Authorization', `Bearer ${token}`)
       .send(blogToBeUpdated)
       .expect(204)
   
@@ -152,10 +188,39 @@ describe('PUT request tests', () => {
     expect(blogsAfterUpdate[1].likes).toBe(100)
   
   })
+
+})
+
+describe('If token is not provided respond with 401', () => {
   
+  test('POST request to /api/blogs/ without token will respond with 401', async () => {
+
+    const newBlog = {
+      title: "Test3",
+      author: "test3author",
+      url: "http://test3.com",
+      likes: 30
+    }
+  
+    await api
+      .post('/api/blogs/')
+      .send(newBlog)
+      .expect(401)
+
+  })
+
+  test('DELETE request to /api/blogs/:id without token will respond with 401', async () => {
+    
+    const idToBeDeleted = (await helper.blogsInDB())[1].id
+  
+    await api
+      .delete(`/api/blogs/${idToBeDeleted}`)
+      .expect(401)
+
+  })
 })
 
 
-  afterAll(async () => {
-    await mongoose.connection.close()
-  })
+afterAll(async () => {
+  await mongoose.connection.close()
+})
