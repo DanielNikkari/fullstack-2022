@@ -30,3 +30,28 @@ test('Blog has unique identifier property named id', async () => {
 
   expect(resultBlogs.body[0].id).toBeDefined()
 })
+
+test('POST request to /api/blogs creates a new blog with correct content', async () => {
+  
+  const newBlog = {
+    title: "Test3",
+    author: "test3author",
+    url: "http://test3.com",
+    likes: 30
+  }
+
+  await api
+    .post('/api/blogs/')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+  
+  const blogs = await helper.blogsInDB()
+
+  expect(blogs).toHaveLength(helper.initialBlogs.length + 1)
+
+  const blogAuthors = blogs.map(blog => blog.author)
+
+  expect(blogAuthors).toContain('test3author')
+
+})
