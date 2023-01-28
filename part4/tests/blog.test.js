@@ -5,8 +5,6 @@ const api = supertest(app)
 const Blog = require('../models/blog')
 const helper = require('./test_helper')
 
-// HTTP GET to /api/blogs checks correct amount blogs in JSON format
-
 beforeEach(async () => {
   await Blog.deleteMany({})
   const blogModels = helper.initialBlogs.map(blog => new Blog(blog))
@@ -21,4 +19,14 @@ test('GET request to /api/blogs returns the right amount of blogs in JSON format
     .expect('Content-Type', /application\/json/)
 
   expect(resultBlogs.body).toHaveLength(helper.initialBlogs.length)
+})
+
+test('Blog has unique identifier property named id', async () => {
+
+  const resultBlogs = await api
+    .get('/api/blogs/')
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  expect(resultBlogs.body[0].id).toBeDefined()
 })
