@@ -9,15 +9,20 @@ blogsRouter.get('/', async (request, response) => {
 
 blogsRouter.post('/', async (request, response) => {
   logger.info(request.body)
-  
-  if (request.body.likes === undefined) {
-    request.body.likes = 0
+
+  if (!request.body.title || !request.body.url) {
+    response.status(400).json({ error: "Bad Request" })
+  } else {
+
+    if (request.body.likes === undefined) {
+      request.body.likes = 0
+    }
+
+    const blog = new Blog(request.body)
+
+    const result = await blog.save()
+    response.status(201).json(result)
   }
-
-  const blog = new Blog(request.body)
-
-  const result = await blog.save()
-  response.status(201).json(result)
 })
 
 module.exports = blogsRouter

@@ -73,3 +73,28 @@ test('If blog is posted without like propery the likes default to 0', async () =
   
   expect(blogs[2].likes).toBe(0)
 })
+
+test('If title or url is missing from the blog server responds with status code 400', async () => {
+
+  const newBlogTitle = {
+    author: "test4author",
+    url: "http://test4.com",
+    likes: 10
+  }
+
+  const newBlogUrl = {
+    title: "Test4",
+    author: "test4author",
+    likes: 10
+  }
+
+  await api
+    .post('/api/blogs/')
+    .send(newBlogTitle)
+    .expect(400)
+  
+  await api
+    .post('/api/blogs/')
+    .send(newBlogUrl)
+    .expect(400)
+  })
