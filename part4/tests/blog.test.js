@@ -53,5 +53,23 @@ test('POST request to /api/blogs creates a new blog with correct content', async
   const blogAuthors = blogs.map(blog => blog.author)
 
   expect(blogAuthors).toContain('test3author')
+})
 
+test('If blog is posted without like propery the likes default to 0', async () => {
+
+  const newBlog = {
+    title: "Test4",
+    author: "test4author",
+    url: "http://test4.com",
+  }
+
+  await api
+    .post('/api/blogs/')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const blogs = await helper.blogsInDB()
+  
+  expect(blogs[2].likes).toBe(0)
 })
