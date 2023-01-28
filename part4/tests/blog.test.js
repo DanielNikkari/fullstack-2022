@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
+const blog = require('../models/blog')
 const api = supertest(app)
 const Blog = require('../models/blog')
 const helper = require('./test_helper')
@@ -97,4 +98,21 @@ test('If title or url is missing from the blog server responds with status code 
     .post('/api/blogs/')
     .send(newBlogUrl)
     .expect(400)
+  })
+
+  test('DELETE request with id params deletes the corresponding blog', async () => {
+
+    const idToBeDeleted = (await helper.blogsInDB())[1].id
+
+    await api
+      .delete(`/api/blogs/${idToBeDeleted}`)
+      .expect(204)
+
+    const blogsAfterDelete = await helper.blogsInDB()
+
+    const idsAfterDelete = blogsAfterDelete.map(blog => blog.title)
+
+    expect(blogsAfterDelete).toHaveLength(helper.initialBlogs.length - 1)
+    expect(idsAfterDelete).toContain('Test1')
+
   })
