@@ -4,16 +4,18 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import { Login } from './components/Login'
 import { CreateBlog } from './components/CreateBlog'
+import { Notification } from './components/Notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [user, setUser] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [message, setMessage] = useState(null)
   const [title, setTitle] = useState("")
   const [author, setAuthor] = useState("")
   const [url, setUrl] = useState("")
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -30,9 +32,11 @@ const App = () => {
         const blogs = await blogService.getAll()
         setBlogs(blogs)
       } catch (exception) {
-        setErrorMessage('Login to get blogs')
+        setMessage('Login to get blogs')
+        setError(true)
         setTimeout(() => {
-          setErrorMessage(null)
+          setMessage(null)
+          setError(false)
         }, 5000)
       }
     }
@@ -53,15 +57,17 @@ const App = () => {
         const blogs = await blogService.getAll()
         setBlogs(blogs)
       } catch (exception) {
-        setErrorMessage('Login to get blogs')
+        setMessage('Login to get blogs')
         setTimeout(() => {
-          setErrorMessage(null)
+          setMessage(null)
         }, 5000)
       }
     } catch (exception) {
-      setErrorMessage('Wrong credentials')
+      setMessage('Wrong credentials')
+      setError(true)
       setTimeout(() => {
-        setErrorMessage(null)
+        setMessage(null)
+        setError(false)
       }, 5000)
     }
   }
@@ -80,12 +86,25 @@ const App = () => {
       url,
     }
 
-    await blogService.createBlog(blog)
-    const blogs = await blogService.getAll()
-    setBlogs(blogs)
-    setAuthor("")
-    setTitle("")
-    setUrl("")
+    try {
+      await blogService.createBlog(blog)
+      const blogs = await blogService.getAll()
+      setBlogs(blogs)
+      setMessage(`a new blog ${title} by ${author} created`)
+      setAuthor("")
+      setTitle("")
+      setUrl("")
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
+    } catch (exception) {
+      setMessage('Failed to create blog, please try again')
+      setError(true)
+      setTimeout(() => {
+        setMessage(null)
+        setError(false)
+      }, 5000)
+    }
   }
 
   const blogsForm = () => {
@@ -104,6 +123,10 @@ const App = () => {
 
   return (
     <div>
+    {
+      message !== null && <Notification message={message} error={error} />
+    }
+    
     {
       user === null
       ?
