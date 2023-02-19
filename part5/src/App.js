@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import { Login } from './components/Login'
 import { CreateBlog } from './components/CreateBlog'
 import { Notification } from './components/Notification'
+import { ToggleVisibility } from './components/ToggleVisibility'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -12,10 +13,9 @@ const App = () => {
   const [password, setPassword] = useState("")
   const [user, setUser] = useState(null)
   const [message, setMessage] = useState(null)
-  const [title, setTitle] = useState("")
-  const [author, setAuthor] = useState("")
-  const [url, setUrl] = useState("")
   const [error, setError] = useState(false)
+
+  const createBlogRef = useRef()
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -77,43 +77,15 @@ const App = () => {
     setUser(null)
   }
 
-  const handleCreateBlog = async (event) => {
-    event.preventDefault()
-
-    const blog = {
-      title,
-      author,
-      url,
-    }
-
-    try {
-      await blogService.createBlog(blog)
-      const blogs = await blogService.getAll()
-      setBlogs(blogs)
-      setMessage(`a new blog ${title} by ${author} created`)
-      setAuthor("")
-      setTitle("")
-      setUrl("")
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000)
-    } catch (exception) {
-      setMessage('Failed to create blog, please try again')
-      setError(true)
-      setTimeout(() => {
-        setMessage(null)
-        setError(false)
-      }, 5000)
-    }
-  }
-
   const blogsForm = () => {
     return(
     <div>
       <h2>blogs</h2>
       <h4>{user.username} logged in</h4>
       <button onClick={handleLogout}>Log out</button>
-      <CreateBlog title={title} author={author} url={url} setTitle={setTitle} setAuthor={setAuthor} setUrl={setUrl} handleCreateBlog={handleCreateBlog} />
+      <ToggleVisibility buttonLabel="new blog" ref={createBlogRef}>
+        <CreateBlog setMessage={setMessage} setBlogs={setBlogs} setError={setError} createBlogRef={createBlogRef} />
+      </ToggleVisibility>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
@@ -130,7 +102,12 @@ const App = () => {
     {
       user === null
       ?
+      <div>
       <Login handleLogin={handleLogin} username={username} password={password} setPassword={setPassword} setUsername={setUsername} />
+      {blogs.map(blog =>
+        <Blog key={blog.id} blog={blog} />
+      )}
+      </div>
       :
       blogsForm()
     }

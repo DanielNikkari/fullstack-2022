@@ -1,5 +1,42 @@
+import { useState } from "react"
+import blogService from '../services/blogs'
 
-export const CreateBlog = ({title, author, url, setTitle, setAuthor, setUrl, handleCreateBlog}) => {
+export const CreateBlog = ({ setMessage, setBlogs, setError, createBlogRef }) => {
+  const [title, setTitle] = useState("")
+  const [author, setAuthor] = useState("")
+  const [url, setUrl] = useState("")
+
+  const handleCreateBlog = async (event) => {
+    event.preventDefault()
+
+    const blog = {
+      title,
+      author,
+      url,
+    }
+
+    try {
+      await blogService.createBlog(blog)
+      createBlogRef.current.toggleVisibility()
+      const blogs = await blogService.getAll()
+      setBlogs(blogs)
+      setMessage(`a new blog ${title} by ${author} created`)
+      setAuthor("")
+      setTitle("")
+      setUrl("")
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
+    } catch (exception) {
+      setMessage('Failed to create blog, please try again')
+      setError(true)
+      setTimeout(() => {
+        setMessage(null)
+        setError(false)
+      }, 5000)
+    }
+  }
+
   return (
     <div>
       <h3>Create new blog</h3>
