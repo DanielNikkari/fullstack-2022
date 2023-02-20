@@ -30,6 +30,7 @@ const App = () => {
     const fetchBlogs = async () => {
       try {
         const blogs = await blogService.getAll()
+        blogs.sort((a, b) => b.likes - a.likes)
         setBlogs(blogs)
       } catch (exception) {
         setMessage('Login to get blogs')
@@ -55,6 +56,7 @@ const App = () => {
       setPassword("")
       try {
         const blogs = await blogService.getAll()
+        blogs.sort((a, b) => b.likes - a.likes)
         setBlogs(blogs)
       } catch (exception) {
         setMessage('Login to get blogs')
@@ -87,7 +89,7 @@ const App = () => {
         <CreateBlog setMessage={setMessage} setBlogs={setBlogs} setError={setError} createBlogRef={createBlogRef} />
       </ToggleVisibility>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} setBlogs={setBlogs} />
+        <Blog key={blog.id} blog={blog} setBlogs={setBlogs} user={user} setMessage={setMessage} setError={setError} />
       )}
     </div>
     )
@@ -105,7 +107,7 @@ const App = () => {
       <div>
       <Login handleLogin={handleLogin} username={username} password={password} setPassword={setPassword} setUsername={setUsername} />
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} setBlogs={setBlogs} user={user} setMessage={setMessage} setError={setError} />
       )}
       </div>
       :
