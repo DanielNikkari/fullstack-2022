@@ -9,8 +9,8 @@ import { ToggleVisibility } from './components/ToggleVisibility'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [message, setMessage] = useState(null)
   const [error, setError] = useState(false)
@@ -51,9 +51,9 @@ const App = () => {
       const user = await loginService.sendCredentials({ username, password })
       blogService.setToken(user.token)
       setUser(user)
-      window.localStorage.setItem("loggedUser", JSON.stringify(user))
-      setUsername("")
-      setPassword("")
+      window.localStorage.setItem('loggedUser', JSON.stringify(user))
+      setUsername('')
+      setPassword('')
       try {
         const blogs = await blogService.getAll()
         blogs.sort((a, b) => b.likes - a.likes)
@@ -81,38 +81,38 @@ const App = () => {
 
   const blogsForm = () => {
     return(
-    <div>
-      <h2>blogs</h2>
-      <h4>{user.username} logged in</h4>
-      <button onClick={handleLogout}>Log out</button>
-      <ToggleVisibility buttonLabel="new blog" ref={createBlogRef}>
-        <CreateBlog setMessage={setMessage} setBlogs={setBlogs} setError={setError} createBlogRef={createBlogRef} />
-      </ToggleVisibility>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} setBlogs={setBlogs} user={user} setMessage={setMessage} setError={setError} />
-      )}
-    </div>
+      <div>
+        <h2>blogs</h2>
+        <h4>{user.username} logged in</h4>
+        <button onClick={handleLogout}>Log out</button>
+        <ToggleVisibility buttonLabel='new blog' ref={createBlogRef}>
+          <CreateBlog setMessage={setMessage} setBlogs={setBlogs} setError={setError} createBlogRef={createBlogRef} />
+        </ToggleVisibility>
+        {blogs.map(blog =>
+          <Blog key={blog.id} blog={blog} setBlogs={setBlogs} user={user} setMessage={setMessage} setError={setError} />
+        )}
+      </div>
     )
   }
 
   return (
     <div>
-    {
-      message !== null && <Notification message={message} error={error} />
-    }
-    
-    {
-      user === null
-      ?
-      <div>
-      <Login handleLogin={handleLogin} username={username} password={password} setPassword={setPassword} setUsername={setUsername} />
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} setBlogs={setBlogs} user={user} setMessage={setMessage} setError={setError} />
-      )}
-      </div>
-      :
-      blogsForm()
-    }
+      {
+        message !== null && <Notification message={message} error={error} />
+      }
+
+      {
+        user === null
+          ?
+          <div>
+            <Login handleLogin={handleLogin} username={username} password={password} setPassword={setPassword} setUsername={setUsername} />
+            {blogs.map(blog =>
+              <Blog key={blog.id} blog={blog} setBlogs={setBlogs} user={user} setMessage={setMessage} setError={setError} />
+            )}
+          </div>
+          :
+          blogsForm()
+      }
     </div>
   )
 }

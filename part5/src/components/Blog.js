@@ -1,8 +1,9 @@
-import { useState } from "react"
+import { useState } from 'react'
 import blogService from '../services/blogs'
-import "../styling/blog.css"
+import '../styling/blog.css'
+import PropTypes from 'prop-types'
 
-const Blog = ({blog, setBlogs, user, setMessage, setError}) => {
+const Blog = ({ blog, setBlogs, user, setMessage, setError }) => {
   const [details, setDetails] = useState(false)
 
   const toggleDetails = () => {
@@ -34,7 +35,6 @@ const Blog = ({blog, setBlogs, user, setMessage, setError}) => {
         setError(false)
       }, 5000)
     }
-    
   }
 
   const deleteBlog = async (event) => {
@@ -77,23 +77,31 @@ const Blog = ({blog, setBlogs, user, setMessage, setError}) => {
   }
 
   return (
-  <div className="blog">
-    <div className="blog-title">{blog.title}</div>
-    {
-      details
-      ?
-      <div className="blog-details">
-        {blog.author}<br/>
-        <a href={blog.url}>{blog.url}</a><br/>
-        {blog.likes}<button className="like-button" onClick={likeBlog}>like</button><br/>
-        {blog.user.username}<br/>
-        <button className="delete-button" onClick={deleteBlog}>delete</button>
-        <br/>
-        <button className="toggle-details" onClick={toggleDetails}>hide</button>
-      </div>
-      :
-      <button className="toggle-details" onClick={toggleDetails}>show</button>
-    }
-  </div>)}
+    <div className='blog'>
+      <div className='blog-title'>{blog.title}</div>
+      {
+        details
+          ?
+          <div className='blog-details'>
+            {blog.author}<br/>
+            <a href={blog.url}>{blog.url}</a><br/>
+            {blog.likes}<button className='like-button' onClick={likeBlog}>like</button><br/>
+            {blog.user.username}<br/>
+            <button className='delete-button' onClick={deleteBlog}>delete</button>
+            <br/>
+            <button className='toggle-details' onClick={toggleDetails}>hide</button>
+          </div>
+          :
+          <button className='toggle-details' onClick={toggleDetails}>show</button>
+      }
+    </div>)}
+
+Blog.ptopTypes = {
+  blog: PropTypes.object.isRequired,
+  setBlogs: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  setMessage: PropTypes.func.isRequired,
+  setError: PropTypes.func.isRequired
+}
 
 export default Blog

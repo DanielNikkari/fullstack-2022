@@ -1,10 +1,10 @@
-import { useState } from "react"
+import { useState } from 'react'
 import blogService from '../services/blogs'
 
 export const CreateBlog = ({ setMessage, setBlogs, setError, createBlogRef }) => {
-  const [title, setTitle] = useState("")
-  const [author, setAuthor] = useState("")
-  const [url, setUrl] = useState("")
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
   const handleCreateBlog = async (event) => {
     event.preventDefault()
@@ -21,9 +21,9 @@ export const CreateBlog = ({ setMessage, setBlogs, setError, createBlogRef }) =>
       const blogs = await blogService.getAll()
       setBlogs(blogs)
       setMessage(`a new blog ${title} by ${author} created`)
-      setAuthor("")
-      setTitle("")
-      setUrl("")
+      setAuthor('')
+      setTitle('')
+      setUrl('')
       setTimeout(() => {
         setMessage(null)
       }, 5000)
@@ -42,15 +42,15 @@ export const CreateBlog = ({ setMessage, setBlogs, setError, createBlogRef }) =>
       <h3>Create new blog</h3>
       <form onSubmit={handleCreateBlog}>
         <div>
-          <input placeholder="Title" type="text" value={title} name="title" onChange={ ({ target }) => {setTitle(target.value)} } />
+          <input placeholder='Title' type='text' value={title} name='title' onChange={ ({ target }) => {setTitle(target.value)} } />
         </div>
         <div>
-          <input placeholder="Author" type="text" value={author} name="author" onChange={ ({ target }) => {setAuthor(target.value)} } />
+          <input placeholder='Author' type='text' value={author} name='author' onChange={ ({ target }) => {setAuthor(target.value)} } />
         </div>
         <div>
-          <input placeholder="URL" type="text" value={url} name="url" onChange={ ({ target }) => {setUrl(target.value)} } />
+          <input placeholder='URL' type='text' value={url} name='url' onChange={ ({ target }) => {setUrl(target.value)} } />
         </div>
-        <button type="submit">Create</button>
+        <button type='submit'>Create</button>
       </form>
     </div>
   )
