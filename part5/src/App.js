@@ -17,6 +17,10 @@ const App = () => {
 
   const createBlogRef = useRef()
 
+  const testSubmit = () => {
+    return
+  }
+
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     if (loggedUserJSON) {
@@ -79,6 +83,32 @@ const App = () => {
     setUser(null)
   }
 
+  const likeBlog = async (blog) => {
+
+    const updateBlog = {
+      user: blog.user.id,
+      likes: blog.likes + 1,
+      author: blog.author,
+      title: blog.title,
+      url: blog.url
+    }
+
+    try {
+      await blogService.updateLikes(blog.id, updateBlog)
+      const updatedBlogs = await blogService.getAll()
+      updatedBlogs.sort((a, b) => b.likes - a.likes)
+      setBlogs(updatedBlogs)
+    } catch (e) {
+      console.error(e)
+      setMessage('Something went wrong, please try again')
+      setError(true)
+      setTimeout(() => {
+        setMessage(null)
+        setError(false)
+      }, 5000)
+    }
+  }
+
   const blogsForm = () => {
     return(
       <div>
@@ -86,10 +116,10 @@ const App = () => {
         <h4>{user.username} logged in</h4>
         <button onClick={handleLogout}>Log out</button>
         <ToggleVisibility buttonLabel='new blog' ref={createBlogRef}>
-          <CreateBlog setMessage={setMessage} setBlogs={setBlogs} setError={setError} createBlogRef={createBlogRef} />
+          <CreateBlog setMessage={setMessage} setBlogs={setBlogs} setError={setError} createBlogRef={createBlogRef} testSubmit={testSubmit} />
         </ToggleVisibility>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} setBlogs={setBlogs} user={user} setMessage={setMessage} setError={setError} />
+          <Blog key={blog.id} blog={blog} setBlogs={setBlogs} user={user} setMessage={setMessage} setError={setError} likeBlog={likeBlog} />
         )}
       </div>
     )
@@ -107,7 +137,7 @@ const App = () => {
           <div>
             <Login handleLogin={handleLogin} username={username} password={password} setPassword={setPassword} setUsername={setUsername} />
             {blogs.map(blog =>
-              <Blog key={blog.id} blog={blog} setBlogs={setBlogs} user={user} setMessage={setMessage} setError={setError} />
+              <Blog key={blog.id} blog={blog} setBlogs={setBlogs} user={user} setMessage={setMessage} setError={setError} likeBlog={likeBlog} />
             )}
           </div>
           :

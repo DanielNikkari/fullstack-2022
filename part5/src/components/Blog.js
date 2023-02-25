@@ -3,38 +3,11 @@ import blogService from '../services/blogs'
 import '../styling/blog.css'
 import PropTypes from 'prop-types'
 
-const Blog = ({ blog, setBlogs, user, setMessage, setError }) => {
+const Blog = ({ blog, setBlogs, user, setMessage, setError, likeBlog }) => {
   const [details, setDetails] = useState(false)
 
   const toggleDetails = () => {
     setDetails(!details)
-  }
-
-  const likeBlog = async (event) => {
-    event.preventDefault()
-
-    const updateBlog = {
-      user: blog.user.id,
-      likes: blog.likes + 1,
-      author: blog.author,
-      title: blog.title,
-      url: blog.url
-    }
-
-    try {
-      await blogService.updateLikes(blog.id, updateBlog)
-      const updatedBlogs = await blogService.getAll()
-      updatedBlogs.sort((a, b) => b.likes - a.likes)
-      setBlogs(updatedBlogs)
-    } catch (e) {
-      console.error(e)
-      setMessage('Something went wrong, please try again')
-      setError(true)
-      setTimeout(() => {
-        setMessage(null)
-        setError(false)
-      }, 5000)
-    }
   }
 
   const deleteBlog = async (event) => {
@@ -78,14 +51,13 @@ const Blog = ({ blog, setBlogs, user, setMessage, setError }) => {
 
   return (
     <div className='blog'>
-      <div className='blog-title'>{blog.title}</div>
+      <div className='blog-title-author'>{blog.title} - {blog.author}<br/></div>
       {
         details
           ?
           <div className='blog-details'>
-            {blog.author}<br/>
-            <a href={blog.url}>{blog.url}</a><br/>
-            {blog.likes}<button className='like-button' onClick={likeBlog}>like</button><br/>
+            <a id='blog-url' href={blog.url}>{blog.url}</a><br/>
+            <div id='likes'>{blog.likes}<button className='like-button' onClick={() => likeBlog(blog)}>like</button><br/></div>
             {blog.user.username}<br/>
             <button className='delete-button' onClick={deleteBlog}>delete</button>
             <br/>

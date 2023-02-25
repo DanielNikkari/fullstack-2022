@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
-export const CreateBlog = ({ setMessage, setBlogs, setError, createBlogRef }) => {
+export const CreateBlog = ({ setMessage, setBlogs, setError, createBlogRef, testSubmit }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -50,7 +50,7 @@ export const CreateBlog = ({ setMessage, setBlogs, setError, createBlogRef }) =>
         <div>
           <input placeholder='URL' type='text' value={url} name='url' onChange={ ({ target }) => {setUrl(target.value)} } />
         </div>
-        <button type='submit'>Create</button>
+        <button onClick={testSubmit} type='submit'>Create</button>
       </form>
     </div>
   )
