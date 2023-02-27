@@ -6,6 +6,7 @@ import { Login } from './components/Login'
 import { CreateBlog } from './components/CreateBlog'
 import { Notification } from './components/Notification'
 import { ToggleVisibility } from './components/ToggleVisibility'
+import './styling/App.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -112,9 +113,8 @@ const App = () => {
   const blogsForm = () => {
     return(
       <div>
-        <h2>blogs</h2>
-        <h4>{user.username} logged in</h4>
-        <button onClick={handleLogout}>Log out</button>
+        <h4 className='loggedin-user'>{user.username} logged in</h4>
+        <button className='logout-button' onClick={handleLogout}>Log out</button>
         <ToggleVisibility buttonLabel='new blog' ref={createBlogRef}>
           <CreateBlog setMessage={setMessage} setBlogs={setBlogs} setError={setError} createBlogRef={createBlogRef} testSubmit={testSubmit} />
         </ToggleVisibility>
@@ -127,6 +127,7 @@ const App = () => {
 
   return (
     <div>
+      <h1 id='app-header'>Blogs</h1>
       {
         message !== null && <Notification message={message} error={error} />
       }
