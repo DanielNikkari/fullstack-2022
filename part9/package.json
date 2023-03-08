@@ -1,0 +1,17 @@
+{
+  "name": "part9",
+  "version": "1.0.0",
+  "description": "Part 9 of the course Full stack open",
+  "main": "index.js",
+  "scripts": {
+    "ts-node": "ts-node",
+    "test": "echo \"no tests implemented\"",
+    "calculateBmi": "ts-node bmiCalculator.ts",
+    "calculateExercises": "ts-node exerciseCalculator.ts"
+  },
+  "author": "Daniel Nikkari",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^18.14.6"
+  }
+}
