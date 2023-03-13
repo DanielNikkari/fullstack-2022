@@ -1,10 +1,17 @@
-import { giveVote } from '../reducers/anecdoteReducer'
+import { giveVote, setAnecdotes } from '../reducers/anecdoteReducer'
 import { useSelector } from 'react-redux'
 import { setNotification, removeNotification } from '../reducers/notificationReducer'
+import { useEffect } from 'react'
+import { getAll, incrementVote } from '../services/anecdotes'
 
 export default function AnecdoteList({ dispatch }) {
 
-  const vote = (id, content) => {
+  useEffect(() => {
+    getAll().then(res => dispatch(setAnecdotes(res)))
+  }, [])
+
+  const vote = async (id, content) => {
+    await incrementVote(id)
     dispatch(giveVote(id))
     dispatch(setNotification(`you voted '${content}'`))
     setTimeout(() => {
