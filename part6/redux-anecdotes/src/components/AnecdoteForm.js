@@ -1,6 +1,5 @@
-import { createAnecdote } from '../reducers/anecdoteReducer'
-import { setNotification, removeNotification } from '../reducers/notificationReducer'
-import { createNew } from '../services/anecdotes'
+import { addAnecdote } from '../reducers/anecdoteReducer'
+import { notification } from '../reducers/notificationReducer'
 
 export default function AnecdoteForm({ dispatch }) {
 
@@ -10,14 +9,9 @@ export default function AnecdoteForm({ dispatch }) {
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
 
-    const newAnecdote = await createNew(content)
-    console.log(`newAnecdote: ${newAnecdote.content}`)
-    dispatch(createAnecdote(newAnecdote))
+    dispatch(addAnecdote(content))
 
-    dispatch(setNotification(`anecdote '${content}' created`))
-    setTimeout(() => {
-      dispatch(removeNotification())
-    }, 5000)
+    dispatch(notification(`anecdote '${content}' created`, 5000))
   }
 
 return(
