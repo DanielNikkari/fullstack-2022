@@ -3,6 +3,8 @@ import { getAnecdotes, voteAnecdote } from './requests'
 
 import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
+import NotificationContext, { useNotificationDispatch } from './NotificationContext'
+
 
 const App = () => {
 
@@ -14,8 +16,23 @@ const App = () => {
     }
   })
 
+  const notificationDispatch = useNotificationDispatch(NotificationContext)
+
   const handleVote = (anecdote) => {
-    voteMutation.mutate({ ...anecdote, votes: anecdote.votes + 1 })
+    voteMutation.mutate({ ...anecdote, votes: anecdote.votes + 1 }, {
+      onSuccess: () => {
+        notificationDispatch({ type: 'SET_NOTIFICATION', payload: `anecdote '${anecdote.content}' voted` })
+        setTimeout(() => {
+          notificationDispatch({ type: 'CLEAR_NOTFICATION' })
+        }, 5000)
+      },
+      onError: () => {
+        notificationDispatch({ type: 'SET_NOTIFICATION', payload: `something went wrong, please try again` })
+        setTimeout(() => {
+          notificationDispatch({ type: 'CLEAR_NOTFICATION' })
+        }, 5000)
+      }
+    })
   }
 
   const anecdotes = useQuery(
@@ -25,8 +42,6 @@ const App = () => {
       retry: 1
     }
   )
-
-  console.log(anecdotes)
 
   if (anecdotes.isLoading) {
     return <div>Loading...</div>
@@ -39,7 +54,6 @@ const App = () => {
   return (
     <div>
       <h3>Anecdote app</h3>
-    
       <Notification />
       <AnecdoteForm queryClient={queryClient} />
     
