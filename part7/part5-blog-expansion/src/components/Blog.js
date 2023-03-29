@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { showDelte, hideDelete } from '../reducers/showDeleteReducer'
 import { displayNotification } from '../reducers/notificationReducer'
 import { deleteBlogAction } from '../reducers/blogsReducer'
+import { Link } from 'react-router-dom'
 
 const Blog = ({ blog, user, likeBlog }) => {
   const dispatch = useDispatch()
@@ -37,47 +38,15 @@ const Blog = ({ blog, user, likeBlog }) => {
   return (
     <div className="blog">
       <div className="blog-title-author">
-        {blog.title} - {blog.author}
-        <br />
-      </div>
-      {showDetails ? (
-        <div className="blog-details">
-          <a id="blog-url" href={blog.url}>
-            {blog.url}
-          </a>
-          <br />
-          <div id="likes">
-            {blog.likes}
-            <button className="like-button" onClick={() => likeBlog(blog)}>
-              like
-            </button>
-            <br />
-          </div>
-          {blog.user.username}
-          <br />
-          {showDelete ? (
-            <div>
-              <button className="delete-button" onClick={deleteBlog}>
-                delete
-              </button>
-              <br />
-            </div>
-          ) : null}
-          <button
-            className="toggle-details"
-            onClick={() => dispatch(toggleDetails(blog.id))}
-          >
-            hide
+        <Link to={`/blogs/${blog.id}`}>
+          {blog.title} - {blog.author}
+        </Link>
+        {showDelete ? (
+          <button className="delete-button" onClick={deleteBlog}>
+            delete
           </button>
-        </div>
-      ) : (
-        <button
-          className="toggle-details"
-          onClick={() => dispatch(toggleDetails(blog.id))}
-        >
-          show
-        </button>
-      )}
+        ) : null}
+      </div>
     </div>
   )
 }

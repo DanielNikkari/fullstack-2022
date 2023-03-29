@@ -10,6 +10,7 @@ import detailsReducer from './reducers/detailsReducer'
 import showDeleteReducer from './reducers/showDeleteReducer'
 import notificationReducer from './reducers/notificationReducer'
 import loginReducer from './reducers/loginReducer'
+import usersReducer from './reducers/usersReducer'
 
 const store = configureStore({
   reducer: {
@@ -17,7 +18,8 @@ const store = configureStore({
     details: detailsReducer,
     showDelete: showDeleteReducer,
     notification: notificationReducer,
-    login: loginReducer
+    login: loginReducer,
+    users: usersReducer
   }
 })
 

@@ -5,10 +5,15 @@ import { Login } from './components/Login'
 import { CreateBlog } from './components/CreateBlog'
 import { Notification } from './components/Notification'
 import { ToggleVisibility } from './components/ToggleVisibility'
+import { Users } from './components/Users'
+import { User } from './components/User'
+import { BlogPage } from './components/BlogPage'
 import { useDispatch, useSelector } from 'react-redux'
 import { initBlogs, updateBlog } from './reducers/blogsReducer'
 import { setUser, logout, login } from './reducers/loginReducer'
+import { Routes, Route, Link } from 'react-router-dom'
 import './styling/App.css'
+import { initUsers } from './reducers/usersReducer'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -28,6 +33,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(initBlogs())
+    dispatch(initUsers())
   }, [])
 
   const handleLogin = async (event) => {
@@ -60,35 +66,53 @@ const App = () => {
   const blogsForm = () => {
     return (
       <div>
-        <h4 className="loggedin-user">{user.username} logged in</h4>
+        <h5 className="loggedin-user">{user.username} logged in</h5>
         <button className="logout-button" onClick={handleLogout}>
           Log out
         </button>
         <ToggleVisibility buttonLabel="new blog" ref={createBlogRef}>
           <CreateBlog createBlogRef={createBlogRef} />
         </ToggleVisibility>
-        {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} user={user} likeBlog={likeBlog} />
-        ))}
       </div>
     )
   }
 
   return (
     <div>
-      <h1 id="app-header">Blogs</h1>
+      <h1 id="app-header">Blogs App</h1>
       <Notification />
-
-      {user === null ? (
-        <div>
-          <Login handleLogin={handleLogin} />
-          {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} user={user} likeBlog={likeBlog} />
-          ))}
-        </div>
-      ) : (
-        blogsForm()
-      )}
+      <div>
+        <Link to={'/'}>Blogs</Link>
+        <Link to={'/users'}>Users</Link>
+        {user === null ? <Login handleLogin={handleLogin} /> : blogsForm()}
+      </div>
+      <Routes>
+        <Route
+          path="/users"
+          element={
+            <div>
+              <Users />
+            </div>
+          }
+        />
+        <Route path="/users/:id" element={<User />} />
+        <Route path="/blogs/:id" element={<BlogPage />} />
+        <Route
+          path="/"
+          element={
+            <div>
+              {blogs.map((blog) => (
+                <Blog
+                  key={blog.id}
+                  blog={blog}
+                  user={user}
+                  likeBlog={likeBlog}
+                />
+              ))}
+            </div>
+          }
+        />
+      </Routes>
     </div>
   )
 }
