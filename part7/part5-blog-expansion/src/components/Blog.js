@@ -7,11 +7,18 @@ import { showDelte, hideDelete } from '../reducers/showDeleteReducer'
 import { displayNotification } from '../reducers/notificationReducer'
 import { deleteBlogAction } from '../reducers/blogsReducer'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import Chip from '@mui/material/Chip'
+import Stack from '@mui/material/Stack'
+import ListItem from '@mui/material/ListItem'
+import ListItemText from '@mui/material/ListItemText'
+import ListItemButton from '@mui/material/ListItemButton'
 
-const Blog = ({ blog, user, likeBlog }) => {
+const Blog = ({ blog, user }) => {
   const dispatch = useDispatch()
   const showDetails = useSelector((state) => state.details[blog.id])
   const showDelete = useSelector((state) => state.showDelete[blog.id])
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (user && blog.user.username === user.username) {
@@ -19,7 +26,7 @@ const Blog = ({ blog, user, likeBlog }) => {
     } else {
       dispatch(hideDelete(blog.id))
     }
-  }, [])
+  }, [user])
 
   const deleteBlog = async (event) => {
     event.preventDefault()
@@ -36,18 +43,34 @@ const Blog = ({ blog, user, likeBlog }) => {
   }
 
   return (
-    <div className="blog">
-      <div className="blog-title-author">
-        <Link to={`/blogs/${blog.id}`}>
-          {blog.title} - {blog.author}
-        </Link>
-        {showDelete ? (
-          <button className="delete-button" onClick={deleteBlog}>
-            delete
-          </button>
-        ) : null}
+    <ListItem
+      secondaryAction={
+        showDelete ? (
+          <Chip
+            label="delete"
+            style={{ backgroundColor: '#FF5B5B' }}
+            onClick={deleteBlog}
+          />
+        ) : null
+      }
+    >
+      <div className="blog">
+        <Stack direction="row" spacing={1}>
+          <ListItemButton onClick={() => navigate(`/blogs/${blog.id}`)}>
+            <ListItemText
+              primary={
+                <Link
+                  style={{ fontSize: 'large', color: 'white' }}
+                  to={`/blogs/${blog.id}`}
+                >
+                  {blog.title} - {blog.author}
+                </Link>
+              }
+            />
+          </ListItemButton>
+        </Stack>
       </div>
-    </div>
+    </ListItem>
   )
 }
 

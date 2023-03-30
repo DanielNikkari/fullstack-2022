@@ -6,6 +6,7 @@
   width: 50%;
   margin: auto;
   position: fixed;
+  z-index: 1000;
 }
 
 .info {
@@ -16,4 +17,5 @@
   width: 50%;
   margin: auto;
   position: fixed;
+  z-index: 1000;
 }

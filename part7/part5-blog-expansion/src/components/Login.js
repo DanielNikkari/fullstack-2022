@@ -3,7 +3,7 @@ import '../styling/App.css'
 export const Login = ({ handleLogin }) => {
   return (
     <form onSubmit={handleLogin}>
-      <h2>Log in</h2>
+      <h2 style={{ color: 'black' }}>Log in</h2>
       <div>
         username
         <input id="username-input" type="text" name="username" />

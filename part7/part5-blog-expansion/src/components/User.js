@@ -26,6 +26,7 @@ export const User = () => {
   return (
     <div>
       <h2>{user.username}</h2>
+      <h4>Blogs added by {user.username}</h4>
       <ul>
         {user.blogs.map((blog) => (
           <li key={blog.id}>

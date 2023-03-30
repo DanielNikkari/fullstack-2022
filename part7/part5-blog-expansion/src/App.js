@@ -14,6 +14,12 @@ import { setUser, logout, login } from './reducers/loginReducer'
 import { Routes, Route, Link } from 'react-router-dom'
 import './styling/App.css'
 import { initUsers } from './reducers/usersReducer'
+import Box from '@mui/material/Box'
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import IconButton from '@mui/material/IconButton'
+import List from '@mui/material/List'
+import { Container } from '@mui/material'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -79,13 +85,33 @@ const App = () => {
 
   return (
     <div>
-      <h1 id="app-header">Blogs App</h1>
       <Notification />
-      <div>
-        <Link to={'/'}>Blogs</Link>
-        <Link to={'/users'}>Users</Link>
-        {user === null ? <Login handleLogin={handleLogin} /> : blogsForm()}
-      </div>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static" style={{ background: 'white' }}>
+          <Toolbar variant="dense" sx={{ justifyContent: 'space-between' }}>
+            <h1 id="app-header">Blogs App</h1>
+            <Container>
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{ mr: 2 }}
+              >
+                <Link to={'/'}>Blogs</Link>
+              </IconButton>
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{ mr: 2 }}
+              >
+                <Link to={'/users'}>Users</Link>
+              </IconButton>
+            </Container>
+            {user === null ? <Login handleLogin={handleLogin} /> : blogsForm()}
+          </Toolbar>
+        </AppBar>
+      </Box>
       <Routes>
         <Route
           path="/users"
@@ -96,20 +122,15 @@ const App = () => {
           }
         />
         <Route path="/users/:id" element={<User />} />
-        <Route path="/blogs/:id" element={<BlogPage />} />
+        <Route path="/blogs/:id" element={<BlogPage likeBlog={likeBlog} />} />
         <Route
           path="/"
           element={
-            <div>
+            <List dense sx={{ bgcolor: '#455a64' }}>
               {blogs.map((blog) => (
-                <Blog
-                  key={blog.id}
-                  blog={blog}
-                  user={user}
-                  likeBlog={likeBlog}
-                />
+                <Blog key={blog.id} blog={blog} user={user} />
               ))}
-            </div>
+            </List>
           }
         />
       </Routes>

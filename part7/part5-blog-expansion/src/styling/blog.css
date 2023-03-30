@@ -1,9 +1,10 @@
 .blog {
-  border: 1px solid black;
+  /* border: 1px solid black; */
   border-radius: 10px;
   margin-bottom: 1em;
   margin-top: 1em;
-  background-color: beige;
+  /* background-color: beige; */
+  width: 100%;
 }
 
 .blog-details {
@@ -11,7 +12,7 @@
 }
 
 .blog-title-author {
-  font-size: large;
+  font-size: x-large;
   font-weight: 600;
   margin-top: 0.5em;
   margin-left: 0.5em;

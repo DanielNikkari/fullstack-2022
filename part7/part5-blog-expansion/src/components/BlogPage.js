@@ -3,8 +3,9 @@ import { useParams, Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import { initBlogs } from '../reducers/blogsReducer'
 import blogService from '../services/blogs'
+import TextField from '@mui/material/TextField'
 
-export const BlogPage = () => {
+export const BlogPage = ({ likeBlog }) => {
   const dispatch = useDispatch()
   const id = useParams().id
   const blogs = useSelector((state) => state.blogs)
@@ -40,13 +41,25 @@ export const BlogPage = () => {
         </h2>
         <a href={blog.url}>{blog.url}</a>
         <br />
-        {blog.likes}
+        <div id="likes">
+          {blog.likes}
+          <button className="like-button" onClick={() => likeBlog(blog)}>
+            like
+          </button>
+          <br />
+        </div>
         <br />
         added by {blog.user.username}
         <div>
           <h4>Comments</h4>
           <form onSubmit={handleAddComment}>
-            <input name="comment" placeholder="Your comment" />
+            <TextField
+              id="standard-basic"
+              label="Your comment"
+              variant="standard"
+              name="comment"
+              size="small"
+            />
             <button className="create-button" type="submit">
               Add comment
             </button>

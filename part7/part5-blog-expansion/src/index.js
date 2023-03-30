@@ -4,6 +4,7 @@ import App from './App'
 import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { Container } from '@mui/material'
 
 import blogsReducer from './reducers/blogsReducer'
 import detailsReducer from './reducers/detailsReducer'
@@ -24,9 +25,11 @@ const store = configureStore({
 })
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <Router>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </Router>
+  <Container>
+    <Router>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </Router>
+  </Container>
 )
