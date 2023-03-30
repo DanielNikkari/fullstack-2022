@@ -1,5 +1,6 @@
 import '../styling/notification.css'
 import { useSelector } from 'react-redux'
+import Alert from '@mui/material/Alert'
 
 export const Notification = ({ error }) => {
   const notification = useSelector((state) => state.notification)
@@ -10,7 +11,11 @@ export const Notification = ({ error }) => {
 
   return (
     <div className={notification.error ? 'error' : 'info'}>
-      <h2>{notification.message}</h2>
+      {notification.error ? (
+        <Alert severity="error">{notification.message}</Alert>
+      ) : (
+        <Alert severity="success">{notification.message}</Alert>
+      )}
     </div>
   )
 }
